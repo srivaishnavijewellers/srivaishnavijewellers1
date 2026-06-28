@@ -1,4 +1,4 @@
-import { FiEdit2, FiEye, FiTrash2 } from "react-icons/fi";
+import { FiEdit2, FiEye, FiPrinter, FiTrash2 } from "react-icons/fi";
 
 const statusClasses = {
   Available: "bg-[#ddf6df] text-[#2e7d32]",
@@ -19,7 +19,7 @@ const InfoLine = ({ label, value }) => (
   </p>
 );
 
-const StockCard = ({ item, onView, onEdit, onDelete }) => (
+const StockCard = ({ item, onView, onEdit, onDelete, onPrint, printing }) => (
   <article className="rounded-3xl border border-[#ead7b4] bg-white p-5 shadow-sm transition hover:border-gold-500">
     <div className="grid gap-5 xl:grid-cols-[1.2fr_1fr_1fr_auto]">
       <div className="space-y-2">
@@ -58,6 +58,15 @@ const StockCard = ({ item, onView, onEdit, onDelete }) => (
         >
           <FiEye size={16} />
           View
+        </button>
+        <button
+          type="button"
+          onClick={() => onPrint(item)}
+          disabled={printing}
+          className="inline-flex items-center gap-2 rounded-2xl border border-[#ead7b4] px-4 py-2 text-sm font-semibold text-mocha-900 disabled:opacity-50"
+        >
+          <FiPrinter size={16} />
+          {printing ? "Printing..." : "Print"}
         </button>
         <button
           type="button"

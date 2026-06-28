@@ -1,8 +1,9 @@
 import axios from "axios";
 import { clearSession, getStoredSession } from "../utils/authStorage.js";
+import { base_url } from "../config.js";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api"
+  baseURL: base_url
 });
 
 api.interceptors.request.use((config) => {

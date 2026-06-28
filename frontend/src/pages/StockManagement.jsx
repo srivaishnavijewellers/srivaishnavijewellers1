@@ -9,6 +9,7 @@ import StockFilter from "../components/StockFilter.jsx";
 import StockSearch from "../components/StockSearch.jsx";
 import StockSummaryCards from "../components/StockSummaryCards.jsx";
 import DashboardLayout from "../layouts/DashboardLayout.jsx";
+import { printStockLabel } from "../components/PrintLabel.jsx";
 import { getProfile, logoutRequest } from "../services/authService.js";
 import { deleteStock, getStockById, getStocks } from "../services/stockService.js";
 import { clearSession, getStoredSession, isSessionExpired } from "../utils/authStorage.js";
@@ -45,6 +46,7 @@ const StockManagement = () => {
   const [viewOpen, setViewOpen] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
+  const [printingId, setPrintingId] = useState(null);
 
   useEffect(() => {
     if (!session || isSessionExpired(session)) {
@@ -152,6 +154,26 @@ const StockManagement = () => {
         type: "error",
         message: getErrorMessage(error, "Unable to load stock details.")
       });
+    }
+  };
+
+  const handlePrint = async (item) => {
+    setPrintingId(item._id);
+    try {
+      await printStockLabel({
+        itemNumber: item.itemNumber,
+        barcode: item.barcode || item.itemNumber,
+        itemName: item.itemName,
+        grossWeight: item.grossWeight ?? item.weight,
+        purity: item.purity
+      });
+    } catch (error) {
+      setAlert({
+        type: "error",
+        message: getErrorMessage(error, "Unable to open print window. Please allow popups and try again.")
+      });
+    } finally {
+      setPrintingId(null);
     }
   };
 
@@ -274,6 +296,8 @@ const StockManagement = () => {
                   onView={handleView}
                   onEdit={handleEdit}
                   onDelete={setDeleteTarget}
+                  onPrint={handlePrint}
+                  printing={printingId === item._id}
                 />
               ))}
             </div>
