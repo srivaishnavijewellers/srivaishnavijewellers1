@@ -6,6 +6,7 @@ import {
   generateItemNumber,
   getStockById,
   getStocks,
+  getIssuedStocks,
   printLabel,
   updateStock
 } from "../controllers/stockController.js";
@@ -17,6 +18,7 @@ router.use(protect);
 router.get("/generate-item-number", generateItemNumber);
 router.post("/generate-barcode", generateBarcode);
 router.post("/print-label", printLabel);
+router.get("/issued", getIssuedStocks);
 router.post("/", createStock);
 router.get("/", getStocks);
 router.get("/:id", getStockById);

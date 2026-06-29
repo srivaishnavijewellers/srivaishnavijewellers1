@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { Stock } from "../models/Stock.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { AppError } from "../utils/appError.js";
@@ -127,6 +128,64 @@ export const getStocks = asyncHandler(async (req, res) => {
   }
 
   const items = await Stock.find(query).sort(buildSortQuery(sortBy));
+  res.json({ items });
+});
+
+export const getIssuedStocks = asyncHandler(async (req, res) => {
+  const { search = "", category = "", purity = "", status = "", sortBy = "newest" } = req.query;
+  
+  const query = {};
+
+  if (search) {
+    const regex = new RegExp(search, "i");
+    query.$or = [
+      { "stockSnapshot.itemNumber": regex },
+      { "stockSnapshot.itemName": regex },
+      { "stockSnapshot.barcode": regex },
+      { "stockSnapshot.category": regex },
+      { customerId: regex },
+      { transactionId: regex }
+    ];
+  }
+
+  if (category && category !== "All") {
+    query["stockSnapshot.category"] = category;
+  }
+
+  if (purity && purity !== "All") {
+    query["stockSnapshot.purity"] = purity;
+  }
+  
+  if (status && status !== "All") {
+    if (status === "Issued") {
+      query.movementType = "ISSUE";
+    } else if (status === "Returned") {
+      query.movementType = "RETURN";
+    } else {
+      query.movementType = status;
+    }
+  }
+
+  const sortQuery = buildSortQuery(sortBy);
+  
+  const rawItems = await mongoose.connection.db.collection('stockmovements').find(query).sort(sortQuery).toArray();
+  
+  const items = rawItems.map(item => ({
+    _id: item._id,
+    itemNumber: item.stockSnapshot?.itemNumber || item.itemNumber,
+    itemName: item.stockSnapshot?.itemName || item.itemName,
+    category: item.stockSnapshot?.category || item.category,
+    purity: item.stockSnapshot?.purity || item.purity,
+    barcode: item.stockSnapshot?.barcode || item.barcode,
+    weight: item.weight || item.stockSnapshot?.grossWeight,
+    grossWeight: item.stockSnapshot?.grossWeight,
+    count: item.quantity || item.stockSnapshot?.quantity,
+    issueDate: item.createdAt,
+    issuedTo: item.customerId || item.issuedTo,
+    transactionNumber: item.transactionId || item.transactionNumber,
+    status: item.movementType === 'ISSUE' ? 'Issued' : (item.movementType === 'RETURN' ? 'Returned' : (item.movementType || 'Issued'))
+  }));
+
   res.json({ items });
 });
 

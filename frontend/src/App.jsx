@@ -6,6 +6,7 @@ import Login from "./pages/Login.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
 import StockManagement from "./pages/StockManagement.jsx";
 import AddStock from "./pages/AddStock.jsx";
+import Issued from "./pages/Issued.jsx";
 import Settings from "./pages/Settings.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
@@ -37,6 +38,14 @@ const App = () => (
       element={
         <ProtectedRoute>
           <AddStock />
+        </ProtectedRoute>
+      }
+    />
+    <Route
+      path="/issued"
+      element={
+        <ProtectedRoute>
+          <Issued />
         </ProtectedRoute>
       }
     />

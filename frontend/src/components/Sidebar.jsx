@@ -6,13 +6,15 @@ import {
   FiLogOut,
   FiPlusCircle,
   FiSettings,
-  FiX
+  FiX,
+  FiList
 } from "react-icons/fi";
 
 const baseItems = [
   { label: "Dashboard",        icon: FiGrid,       key: "dashboard",        path: "/dashboard" },
   { label: "Stock Management", icon: FiBox,        key: "stock-management", path: "/stock-management" },
-  { label: "Add Stock",        icon: FiPlusCircle, key: "add-stock",        path: "/add-stock" }
+  { label: "Add Stock",        icon: FiPlusCircle, key: "add-stock",        path: "/add-stock" },
+  { label: "Issued",           icon: FiList,       key: "issued",           path: "/issued" }
 ];
 
 const adminItems = [
