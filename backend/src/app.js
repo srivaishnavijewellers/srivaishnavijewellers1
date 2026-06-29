@@ -14,7 +14,7 @@ const app = express();
 
 const allowedOrigins = (process.env.CLIENT_URL || "")
   .split(",")
-  .map((o) => o.trim())
+  .map((o) => o.trim().replace(/\/$/, ""))
   .filter(Boolean);
 
 if (allowedOrigins.length === 0) {
