@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color: #24160d;
+  background:
+    radial-gradient(circle at top, rgba(246, 230, 180, 0.7), transparent 36%),
+    linear-gradient(135deg, #fffdfa 0%, #f4ebde 52%, #ead8bb 100%);
+  font-family: "Trebuchet MS", sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #24160d;
+  -webkit-box-shadow: 0 0 0 1000px #fffdfa inset;
+}
+
