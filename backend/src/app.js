@@ -17,6 +17,10 @@ const allowedOrigins = (process.env.CLIENT_URL || "")
   .map((o) => o.trim())
   .filter(Boolean);
 
+if (allowedOrigins.length === 0) {
+  console.warn("WARNING: CLIENT_URL is not set. All browser requests will be blocked by CORS.");
+}
+
 app.use(
   cors({
     origin: (origin, cb) => {
