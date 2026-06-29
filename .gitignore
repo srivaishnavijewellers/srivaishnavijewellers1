@@ -3,6 +3,7 @@ dist/
 .claude/
 .env
 .env.local
+.env.production
 frontend/.env
 frontend/.env.local
 backend/.env
@@ -12,4 +13,3 @@ yarn-debug.log*
 yarn-error.log*
 package-lock.json
 pnpm-lock.yaml
-
