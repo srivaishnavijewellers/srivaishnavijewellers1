@@ -1,2 +1,2 @@
-export const base_url = "https://srivaishnavijewellers1.onrender.com";
+export const base_url = "https://localhost:5000/api";
 
