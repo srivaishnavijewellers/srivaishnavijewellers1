@@ -36,7 +36,7 @@ const StockManagement = () => {
   const [search, setSearch] = useState("");
   const [filters, setFilters] = useState({
     category: "",
-    purity: "",
+    designName: "",
     sortBy: "newest"
   });
   const [currentPage, setCurrentPage] = useState(1);
@@ -72,7 +72,7 @@ const StockManagement = () => {
         getStocks({
           search,
           category: filters.category,
-          purity: filters.purity,
+          designName: filters.designName,
           sortBy: filters.sortBy
         }),
         getProfile()
@@ -92,11 +92,11 @@ const StockManagement = () => {
 
   useEffect(() => {
     loadPageData();
-  }, [search, filters.category, filters.purity, filters.sortBy]);
+  }, [search, filters.category, filters.designName, filters.sortBy]);
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [search, filters.category, filters.purity, filters.sortBy]);
+  }, [search, filters.category, filters.designName, filters.sortBy]);
 
   const summary = useMemo(() => {
     const categories = new Set(items.map((item) => item.category).filter(Boolean));
@@ -114,8 +114,8 @@ const StockManagement = () => {
     () => [...new Set(items.map((item) => item.category).filter(Boolean))].sort(),
     [items]
   );
-  const purities = useMemo(
-    () => [...new Set(items.map((item) => item.purity).filter(Boolean))].sort(),
+  const designNames = useMemo(
+    () => [...new Set(items.map((item) => item.designName).filter(Boolean))].sort(),
     [items]
   );
 
@@ -259,7 +259,7 @@ const StockManagement = () => {
           <StockSearch value={search} onChange={setSearch} />
           <StockFilter
             categories={categories}
-            purities={purities}
+            designNames={designNames}
             filters={filters}
             onFilterChange={handleFilterChange}
           />

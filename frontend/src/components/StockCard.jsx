@@ -25,6 +25,7 @@ const StockCard = ({ item, onView, onEdit, onDelete, onPrint, printing }) => (
       <div className="space-y-2">
         <InfoLine label="Item No" value={item.itemNumber} />
         <h3 className="font-display text-2xl text-mocha-900">{item.itemName}</h3>
+        <InfoLine label="Design Name" value={item.designName} />
         <InfoLine label="Category" value={item.category} />
       </div>
 

@@ -12,6 +12,11 @@ const stockSchema = new mongoose.Schema(
       required: true,
       trim: true
     },
+    designName: {
+      type: String,
+      default: "",
+      trim: true
+    },
     subCategory: {
       type: String,
       default: "",

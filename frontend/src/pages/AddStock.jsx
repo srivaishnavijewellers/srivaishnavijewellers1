@@ -10,7 +10,6 @@ import { getProfile, logoutRequest } from "../services/authService.js";
 import {
   createStock,
   generateBarcode,
-  generateItemNumber,
   getStockById,
   updateStock
 } from "../services/stockService.js";
@@ -33,7 +32,6 @@ const AddStock = () => {
   const [alert, setAlert] = useState(null);
   const [saving, setSaving] = useState(false);
   const [printing, setPrinting] = useState(false);
-  const [generatingItemNumber, setGeneratingItemNumber] = useState(false);
   const [generatingBarcode, setGeneratingBarcode] = useState(false);
 
   const {
@@ -47,6 +45,7 @@ const AddStock = () => {
     defaultValues: {
       itemNumber: "",
       itemName: "",
+      designName: "",
       category: "",
       grossWeight: "",
       netWeight: "",
@@ -98,6 +97,7 @@ const AddStock = () => {
           reset({
             itemNumber: stock.itemNumber || "",
             itemName: stock.itemName || "",
+            designName: stock.designName || "",
             category: stock.category || "",
             grossWeight: stock.grossWeight ?? stock.weight ?? "",
             netWeight: stock.netWeight ?? stock.grossWeight ?? stock.weight ?? "",
@@ -107,8 +107,6 @@ const AddStock = () => {
             barcode: stock.barcode || "",
             description: stock.description || ""
           });
-        } else {
-          await fetchItemNumber();
         }
       } catch (error) {
         setAlert({
@@ -121,21 +119,6 @@ const AddStock = () => {
     init();
     return () => window.clearTimeout(timeout);
   }, []);
-
-  const fetchItemNumber = async () => {
-    setGeneratingItemNumber(true);
-    try {
-      const data = await generateItemNumber();
-      setValue("itemNumber", data.itemNumber);
-    } catch (error) {
-      setAlert({
-        type: "error",
-        message: getErrorMessage(error, "Unable to generate item number.")
-      });
-    } finally {
-      setGeneratingItemNumber(false);
-    }
-  };
 
   const handleGenerateBarcode = async () => {
     const itemNumber = watch("itemNumber");
@@ -265,9 +248,7 @@ const AddStock = () => {
             user={user}
             watch={watch}
             isEditMode={isEditMode}
-            generatingItemNumber={generatingItemNumber}
             generatingBarcode={generatingBarcode}
-            onGenerateItemNumber={fetchItemNumber}
             onGenerateBarcode={handleGenerateBarcode}
           />
         </div>

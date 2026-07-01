@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { FiRefreshCcw } from "react-icons/fi";
 import { createQrDataUrl } from "../services/barcodeService.js";
 import FormInput from "./FormInput.jsx";
 
@@ -23,9 +22,7 @@ const StockForm = ({
   user,
   watch,
   isEditMode,
-  generatingItemNumber,
   generatingBarcode,
-  onGenerateItemNumber,
   onGenerateBarcode
 }) => {
   const createdDate = new Date().toLocaleDateString("en-IN");
@@ -62,18 +59,7 @@ const StockForm = ({
         <div className="space-y-5">
           {/* Item Number */}
           <div className="space-y-2">
-            <div className="flex items-center justify-between gap-3">
-              <span className="text-sm font-semibold text-mocha-800">Item Number *</span>
-              <button
-                type="button"
-                onClick={onGenerateItemNumber}
-                disabled={generatingItemNumber}
-                className="inline-flex items-center gap-2 rounded-xl border border-[#ead7b4] px-3 py-2 text-xs font-semibold text-mocha-900 disabled:opacity-60"
-              >
-                <FiRefreshCcw size={14} />
-                {generatingItemNumber ? "Generating..." : "Generate Next"}
-              </button>
-            </div>
+            <span className="mb-2 block text-sm font-semibold text-mocha-800">Item Number *</span>
             <input
               type="text"
               {...register("itemNumber", { required: "Item Number is required." })}
@@ -84,14 +70,30 @@ const StockForm = ({
             ) : null}
           </div>
 
-          <FormInput
-            label="Item Name *"
-            name="itemName"
-            placeholder="Gold Ring"
-            register={register}
-            rules={{ required: "Item Name is required." }}
-            error={errors.itemName}
-          />
+          <div className="grid gap-5 sm:grid-cols-2">
+            <FormInput
+              label="Item Name *"
+              name="itemName"
+              placeholder="Gold Ring"
+              register={register}
+              rules={{ required: "Item Name is required." }}
+              error={errors.itemName}
+            />
+
+            <FormInput
+              label="Design Name"
+              name="designName"
+              placeholder="thalli1"
+              register={register}
+              rules={{
+                pattern: {
+                  value: /^[a-zA-Z0-9\s]*$/,
+                  message: "Design Name must be alphanumeric."
+                }
+              }}
+              error={errors.designName}
+            />
+          </div>
 
           {/* Category */}
           <label className="block">

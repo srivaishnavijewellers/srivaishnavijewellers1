@@ -14,6 +14,7 @@ const buildSearchQuery = (search) => {
     $or: [
       { itemNumber: regex },
       { itemName: regex },
+      { designName: regex },
       { barcode: regex },
       { category: regex }
     ]
@@ -51,6 +52,7 @@ const normalizePayload = (payload) => {
   return {
     itemNumber: `${payload.itemNumber || ""}`.trim(),
     itemName: `${payload.itemName || ""}`.trim(),
+    designName: `${payload.designName || ""}`.trim(),
     category: `${payload.category || ""}`.trim(),
     subCategory: `${payload.subCategory || ""}`.trim(),
     barcode: `${payload.barcode || ""}`.trim(),
@@ -74,6 +76,10 @@ const validateStockPayload = async (payload, excludeId = null) => {
 
   if (!payload.itemName) {
     throw new AppError("Item Name is required.", 400);
+  }
+
+  if (payload.designName && !/^[a-zA-Z0-9\s]*$/.test(payload.designName)) {
+    throw new AppError("Design Name must be alphanumeric.", 400);
   }
 
   if (!payload.category) {
@@ -114,7 +120,7 @@ const validateStockPayload = async (payload, excludeId = null) => {
 };
 
 export const getStocks = asyncHandler(async (req, res) => {
-  const { search = "", category = "", purity = "", sortBy = "newest" } = req.query;
+  const { search = "", category = "", purity = "", designName = "", sortBy = "newest" } = req.query;
   const query = {
     ...buildSearchQuery(search)
   };
@@ -125,6 +131,10 @@ export const getStocks = asyncHandler(async (req, res) => {
 
   if (purity) {
     query.purity = purity;
+  }
+
+  if (designName) {
+    query.designName = designName;
   }
 
   const items = await Stock.find(query).sort(buildSortQuery(sortBy));

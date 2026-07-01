@@ -1,6 +1,6 @@
 const StockFilter = ({
   categories,
-  purities,
+  designNames,
   filters,
   onFilterChange
 }) => (
@@ -22,16 +22,16 @@ const StockFilter = ({
     </label>
 
     <label className="block">
-      <span className="mb-2 block text-sm font-semibold text-mocha-800">Purity</span>
+      <span className="mb-2 block text-sm font-semibold text-mocha-800">Design Name</span>
       <select
-        value={filters.purity}
-        onChange={(event) => onFilterChange("purity", event.target.value)}
+        value={filters.designName}
+        onChange={(event) => onFilterChange("designName", event.target.value)}
         className="w-full rounded-2xl border border-[#ead7b4] bg-white px-4 py-3 text-sm text-mocha-900 outline-none focus:border-gold-500 focus:ring-2 focus:ring-gold-100"
       >
-        <option value="">All Purities</option>
-        {purities.map((purity) => (
-          <option key={purity} value={purity}>
-            {purity}
+        <option value="">All Design Names</option>
+        {designNames.map((designName) => (
+          <option key={designName} value={designName}>
+            {designName}
           </option>
         ))}
       </select>

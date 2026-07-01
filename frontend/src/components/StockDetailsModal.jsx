@@ -18,6 +18,7 @@ const StockDetailsModal = ({ open, item, onClose }) => {
     ["Item Number", item.itemNumber],
     ["Barcode", item.barcode || item.itemNumber],
     ["Item Name", item.itemName],
+    ["Design Name", item.designName || "-"],
     ["Category", item.category],
     ["Gross Weight", `${item.grossWeight ?? item.weight ?? 0} g`],
     ["Net Weight", `${item.netWeight ?? item.grossWeight ?? item.weight ?? 0} g`],

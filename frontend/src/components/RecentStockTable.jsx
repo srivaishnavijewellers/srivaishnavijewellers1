@@ -53,6 +53,7 @@ const RecentStockTable = ({ loading, items }) => {
                 <th className="px-4">S.No</th>
                 <th className="px-4">Item Number</th>
                 <th className="px-4">Item Name</th>
+                <th className="px-4">Design Name</th>
                 <th className="px-4">Category</th>
                 <th className="px-4">Gross Wt (g)</th>
                 <th className="px-4">Net Wt (g)</th>
@@ -67,6 +68,7 @@ const RecentStockTable = ({ loading, items }) => {
                   <td className="rounded-l-2xl px-4 py-4">{index + 1}</td>
                   <td className="px-4 py-4">{item.itemNumber}</td>
                   <td className="px-4 py-4 font-semibold">{item.itemName}</td>
+                  <td className="px-4 py-4">{item.designName || "-"}</td>
                   <td className="px-4 py-4">{item.category}</td>
                   <td className="px-4 py-4">{item.grossWeight ?? item.weight ?? 0}</td>
                   <td className="px-4 py-4">{item.netWeight ?? item.grossWeight ?? item.weight ?? 0}</td>
